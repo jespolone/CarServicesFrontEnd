@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http'; //, HttpHeaders
 import { Observable } from 'rxjs';
 import {HttpService} from "./http.service";
+import {User} from "../models/user.model";
 
 const API_URL = 'http://localhost:8080/api/test/';
-const AUTH_API = '/api';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+// const AUTH_API = '/api';
+//
+// const httpOptions = {
+//   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+// };
 @Injectable({
   providedIn: 'root'
 })
@@ -26,9 +27,14 @@ export class UserService {
     return this.http.get(API_URL + 'mod', { responseType: 'text' });
   }
 
-  getAdminBoard(): Observable<any> {
-    return this.http.get(API_URL + 'admin', { responseType: 'text' });
+  setUserRole(user:User){  //user/role-update
+    return this.httpService.post("/user/role-update", user);
   }
+  setUserActive(user:User){
+    return this.httpService.post("/user/active-update", user);
+  }
+
+
 
   changePassword(oldPassword: string, newPassword: string, username: string): Observable<any> {
     console.log('qui ci arrivo');
@@ -48,5 +54,26 @@ export class UserService {
       default:
         return "STANDARD USER";
     }
+  }
+
+  checkActive(isActive: number): String{
+    switch (isActive){
+      case 0:
+        return "INATTIVO";
+      case 1:
+        return "ATTIVO";
+      default:
+        return "INDEFINITO";
+    }
+  }
+
+  switchUserRole(user: User):User{
+    user.idRuolo = user.idRuolo == 2 ? 3 : 2;
+    return user;
+  }
+
+  switchUserActive(user: User):User{
+    user.isactive = user.isactive == 1 ? 0 : 1;
+    return user;
   }
 }

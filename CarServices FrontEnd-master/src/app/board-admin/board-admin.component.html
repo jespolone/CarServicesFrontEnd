@@ -1,7 +1,7 @@
 <div class="container" style="margin-top: 145px">
 <!--  <header class="jumbotron">-->
 <!--  </header>-->
-  <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%" *ngIf="!userSelected; else userDetail">
+  <table id="dtBasicExample" class="table table-striped table-bordered table-sm" *ngIf="!userSelected; else userDetail">
     <thead>
     <tr>
       <th class="th-sm">Id
@@ -19,7 +19,7 @@
     </tr>
     </thead>
     <tbody *ngFor='let user of users; let i=index;' (click)='onUserClick(i)'>
-      <tr>
+      <tr style="cursor: pointer">
         <td>{{user.id}}</td>
         <td>{{user.nome}} {{user.cognome}}</td>
         <td>{{user.username}}</td>
@@ -55,35 +55,36 @@
         <p class="card-text">Nome: {{userSelect.nome}}</p>
         <p class="card-text">Cognome: {{userSelect.cognome}}</p>
         <p class="card-text">Email: {{userSelect.email}}</p>
-        <p class="card-text">Id Ruolo: {{userSelect.idRuolo}}</p>
-        <p class="card-text">Is Active: {{userSelect.isactive}}</p>
-        <button class="btn btn-bordo btn-lg" (click)="onCancel()">CANCEL</button>
+        <p class="card-text">Ruolo: {{userRole}}</p>
+        <p class="card-text">Active: {{userActive}}</p>
+        <button class="btn btn-bordo btn-lg" (click)="onCancel()">CANCELLA</button>
       </div>
     </div>
 
-    <div class="col-md-9" >
-      <div class="text-center">
+    <div class="col-md-9" *ngIf="userSelect">
+      <div class="text-center" >
         <br><br><br>
-        <div class="txt-5 grigio-scuro grassetto">USATO GARANTITO</div>
-        <div class="txt-4 light">SCOPRI TUTTE LE NOSTRE OCCASIONI</div>
+        <div class="txt-5 grigio-scuro grassetto">Cambio ruolo di {{userSelect.username}}</div>
+<!--        <div class="txt-4 light">SCOPRI TUTTE LE NOSTRE OCCASIONI</div>-->
         <br>
         <div class="light" style="font-size: 20px;" >
-          Una vasta gamma di veicoli d'occasione tra cui scegliere, tutti rigorosamente controllati e garantiti, accompagnati da tutta l'esperienza e l'affidabilità Autostyle Service.
+          Cliccando sul pulsante sottostante è possibile cambiare il ruolo dell'utente.
           <br>
-          Sfoglia tutti gli annunci di auto usate e trova il veicolo perfetto per te.
+          Il numero 2 sta per 'SERVICE_USER' mentre il numero 3 sta per 'STANDARD_USER'.
         </div>
         <br><br>
-        <a href="#" class="btn btn-bordo btn-lg" role="button">VEDI TUTTI</a>
+        <button class="btn btn-bordo btn-lg" role="button" (click)="onRoleSave()" >Cambia Ruolo</button>
         <br><br><br>
       </div>
       <div class="sf-grigio bianco text-center" >
         <br><br>
-        <div class="txt-5 bianco grassetto">MARCHI</div>
-        <div class="txt-4 grigio-scuro light">OFFICINA AUTORIZZATA</div>
+        <div class="txt-5 bianco grassetto">Cambia lo stato di {{userSelect.username}}</div>
+<!--        <div class="txt-4 grigio-scuro light">Cambia lo stato (ATTIVO/INATTIVO) di {{userSelect.username}}</div>-->
         <br>
-        Autostyle Service è officina autorizzata Jaguar, Land Rover e Isuzu. Manutenzione periodica, tagliandi, interventi di assistenza e riparazioni vengono svolti a cura di personale qualificato ed utilizzando ricambi originali.
-        <br><br>
-        <a href="#" class="btn btn-bordo-bianco btn-lg" role="button">SCOPRI</a>
+        Cliccando sul pulsante sottostante è possibile cambiare il ruolo dell'utente.
+        <br>
+        Il numero 2 sta per 'SERVICE_USER' mentre il numero 3 sta per 'STANDARD_USER'.<br><br>
+        <button href="#" class="btn btn-bordo-bianco btn-lg" role="button" (click)="onActiveSave()">Cambia Stato</button>
         <br><br><br>
       </div>
 
