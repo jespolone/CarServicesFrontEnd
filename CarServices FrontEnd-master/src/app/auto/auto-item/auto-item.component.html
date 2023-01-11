@@ -1,0 +1,19 @@
+<div href="#" class="list-group-item clearfix" (click)="onAutoClick()">
+    <div class="pull-left"> <!-- class="pull-left" -->
+        <!-- String interpolation-->
+        <h4 class="list-group-item-heading">{{ auto.marca}}</h4>
+        <p class="list-group-item-text">{{auto.modello}}</p>
+        <p class="list-group-item-text">{{auto.targa}}</p>
+        <p class="list-group-item-text">{{auto.anno}}</p>
+        <p class="list-group-item-text">{{auto.colore}}</p>
+    </div>
+    <span class="pull-right">
+        <button type="button" class="btn btn-danger" (click)="onAutoDelete()">Cancella auto</button>
+    </span>
+   <!--  <span class="pull-right"> -->
+        <!-- Posso usare sia la string interpolation-->
+        <!--src= "{{recipe.imagePath}}"-->
+        <!-- Oppure il data binding-->
+       <!--  <img [src]="recipe.imagePath" alt="" class="img-responsive" style="max-height: 50px;"> -->
+    <!-- </span> -->
+</div>

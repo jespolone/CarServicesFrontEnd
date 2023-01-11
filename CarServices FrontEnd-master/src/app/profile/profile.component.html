@@ -1,0 +1,35 @@
+<div class="container" *ngIf="isLoggedIn; else loggedOut">
+  <div *ngIf="!cambioPassword; else changePass">
+    <header class="jumbotron">
+      <h3>
+        <strong>{{ currentUser.username }}</strong> Profile
+      </h3>
+    </header>
+    <p>
+      <strong>Nome:</strong>
+      {{ currentUser.nome}}
+      {{ currentUser.cognome }}
+    </p>
+    <p>
+      <strong>Email:</strong>
+      {{ currentUser.email }}
+    </p>
+    <p>
+    <strong>Ruolo:</strong>
+    {{role}}
+    </p>
+    <p>
+  <!--    <a href="#" class="btn btn-bordo btn-lg" role="button">CAMBIO PASSWORD</a>-->
+      <button type="button"  class="btn btn-bordo btn-lg" role="button" style="margin-left: 56px;" (click)="onClick()">CAMBIO PASSWORD</button>
+    </p>
+    <div style="height: 600px"></div>
+  </div>
+  <ng-template #changePass>
+  <app-change-password></app-change-password>
+  </ng-template>
+</div>
+
+<ng-template #loggedOut>
+  <h1>Please login.</h1>
+  <div style="height: 900px"></div>
+</ng-template>

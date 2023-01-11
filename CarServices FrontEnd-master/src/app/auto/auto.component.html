@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="col-md-5">      
+        <app-auto-item *ngFor="let auto of listaAuto" [auto]="auto" (autoToShow)="onAutoToShowChange($event)" (autoToDelete)="onAutoToDelete($event)"></app-auto-item>
+    </div>
+    <div class="col-md-7">
+        <app-auto-details [autoToShow]="autoToShow"></app-auto-details>
+    </div>
+</div>

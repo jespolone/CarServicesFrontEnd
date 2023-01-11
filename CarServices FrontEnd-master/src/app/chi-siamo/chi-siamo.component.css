@@ -1,0 +1,165 @@
+.row{
+  color: #58585a;
+}
+
+.imgElement{
+  height: 320px;
+  width: 100%;
+}
+
+
+@media (min-width: 576px) {
+  .imgElement{
+
+  }
+}
+
+@media (min-width: 768px) {
+  .imgElement {
+
+  }
+}
+@media (min-width: 992px) {
+  .imgElement{
+
+  }
+}
+
+@media (min-width: 1300px){
+  .imgElement{
+    height: 260px;
+  }
+}
+
+@media (min-width: 1600px){
+  .imgElement{
+    height: 300px;
+  }
+}
+
+@media (min-width: 1900px){
+  .imgElement{
+    height: 400px;
+  }
+}
+
+@media (min-width: 2300px){
+  .imgElement{
+    height: 439px;
+  }
+}
+
+
+@media (min-width: 2300px){
+  .imgElement{
+    height: 439px;
+  }
+}
+
+.gridElement{
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
+@media (min-width: 576px) {
+  #FotoTitolo {
+    line-height: 40px;
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 768px) {
+  #FotoTitolo {
+    line-height: 50px;
+    font-size: 50px;
+  }
+}
+@media (min-width: 992px) {
+  #FotoTitolo {
+    line-height: 50px;
+    font-size: 50px;
+  }
+}
+
+@media (min-width: 1200px){
+  #FotoTitolo {
+    line-height: 60px;
+    font-size: 60px;
+  }
+}
+
+#FotoTitolo {
+  width: 100%;
+  position: relative;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+#ContainerFoto {
+
+}
+
+@media (min-width: 576px) {
+  #ContainerFoto {
+    height: 300px;
+    margin: 0 0 0 0;
+  }
+}
+
+@media (min-width: 768px) {
+  #ContainerFoto {
+    height: 340px;
+    margin: 0 0 0 0;
+  }
+}
+
+@media (min-width: 992px){
+  #ContainerFoto {
+    height: 340px;
+    margin: 0 0 0 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  #ContainerFoto {
+    height: 400px;
+    margin: 0 0 0 0;
+  }
+}
+
+#ContainerFoto {
+  background-image: url(/assets/img/chisiamo.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-bottom: 30px;
+  background-size: cover;
+}
+
+h1 {
+  font-size: 60px;
+  line-height: 60px;
+  font-weight: 700;
+  margin: 40px 0 0 0;
+  padding: 0;
+}
+
+
+h2 {
+  font-size: 28px;
+  line-height: 28px;
+  font-weight: 100;
+  margin: 0 0 40px 0;
+  padding: 0;
+
+
+
+}
+
+h3 {
+  display: block;
+  font-size: 1.17em;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
