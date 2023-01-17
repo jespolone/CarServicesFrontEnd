@@ -27,6 +27,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpInterceptorService } from './_services/http-interceptor.service';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { HttpInterceptorService } from './_services/http-interceptor.service';
     ReactiveFormsModule,
     NgxSpinnerModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [authInterceptorProviders, {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}],
   bootstrap: [AppComponent]

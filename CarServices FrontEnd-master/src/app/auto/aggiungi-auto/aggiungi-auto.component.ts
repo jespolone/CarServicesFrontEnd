@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Auto } from 'src/app/models/auto.model';
 import { AutoService } from 'src/app/_services/auto.service';
@@ -12,6 +12,7 @@ export class AggiungiAutoComponent implements OnInit {
 
   private auto!:Auto;
 
+  @Output() autoToAdd: EventEmitter<Auto> = new EventEmitter<Auto>();
   public formGroup:FormGroup = this.fb.group({
     marca: new FormControl(''),
     modello: new FormControl(''),
@@ -31,7 +32,7 @@ export class AggiungiAutoComponent implements OnInit {
   onAutoAdd(){
     Object.assign(this.auto, this.formGroup.value);
     this.autoService.saveAuto(this.auto).subscribe((auto:Auto)=>{
-      console.log(this.auto);
+      this.autoToAdd.emit(auto);
     });
 
   }

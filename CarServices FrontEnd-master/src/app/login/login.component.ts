@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import {UserService} from "../_services/user.service";
+import { IndividualConfig } from 'ngx-toastr';
+import {ToasterService, toastPayload} from "../_services/toaster.service";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,11 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   role: string = '';
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private userService: UserService) { }
+  toastTitle = 'Successo';
+  toastMessage = 'Login avvenuto correttamente';
+  toast!: toastPayload;
+
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private userService: UserService, private toasterService: ToasterService) { }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
@@ -32,24 +38,62 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(username, password).subscribe(
       data => {
-        console.log('token : '+ data.jwttoken);
         this.tokenStorage.saveToken(data.jwttoken);
         this.tokenStorage.saveUser(data.user);
-
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.role = this.userService.checkGrant(this.tokenStorage.getUser().idRuolo);
-        this.reloadPage();
+        this.toast = {
+          message: this.toastMessage,
+          title: this.toastTitle,
+          type: 'success',
+          ic: {
+            timeOut: 2500,
+            closeButton: true,
+            positionClass: 'toast-top-center',
+          } as IndividualConfig,
+        };
+        this.toasterService.showToast(this.toast);
+        setTimeout(() =>
+          {
+            window.location.href=  "/home";
+          },
+          1000);
       },
       err => {
-        this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
+
+        if(err.status == 400){
+          this.toast = {
+            message: "Username o password errata",
+            title: "Errore",
+            type: 'error',
+            ic: {
+              timeOut: 2500,
+              closeButton: true,
+              positionClass: 'toast-top-center',
+            } as IndividualConfig,
+          };
+          this.toasterService.showToast(this.toast);
+          this.errorMessage ="Username o password errata";
+          this.isLoginFailed = true;
+        }
+        if(err.status == 401){
+          this.toast = {
+            message: "Controllare l'email per il link di attivazione",
+            title: "Errore, utente inattivo",
+            type: 'error',
+            ic: {
+              timeOut: 2500,
+              closeButton: true,
+              positionClass: 'toast-top-center',
+            } as IndividualConfig,
+          };
+          this.toasterService.showToast(this.toast);
+          this.errorMessage ="Errore, utente inattivo";
+          this.isLoginFailed = true;
+        }
       }
     );
-  }
-
-  reloadPage(): void {
-    window.location.reload();
   }
 
 }

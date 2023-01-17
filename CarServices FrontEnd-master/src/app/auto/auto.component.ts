@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Auto } from 'src/app/models/auto.model';
 import { AutoService } from 'src/app/_services/auto.service';
 
@@ -10,17 +10,23 @@ import { AutoService } from 'src/app/_services/auto.service';
 export class AutoComponent implements OnInit {
     public listaAuto: Auto[]=[];
     public autoToShow!: Auto;
-    constructor(private autoService: AutoService) {
+
+    showComponent: boolean = true;
+    constructor(private autoService: AutoService,  private changeDetection: ChangeDetectorRef) {
    }
 
   ngOnInit(): void {
     this.autoService.getAllAuto().subscribe(listaAuto=>{
-      this.listaAuto=listaAuto;
-      this.autoToShow=this.listaAuto[0];
-      console.log("auto.component");
+      if(listaAuto.length==0) {
+        this.showComponent = false;
+      }
+      else {
+        this.listaAuto = listaAuto;
+        this.autoToShow = this.listaAuto[0];
+      }
     });
-
   }
+
 
   onAutoToShowChange(event:Auto){
     this.autoToShow=event;
@@ -28,10 +34,16 @@ export class AutoComponent implements OnInit {
 
   onAutoToDelete(event:Auto){
 
-
     this.autoService.deleteAuto(event.id).subscribe((auto:Auto)=>{
-      console.log(auto);
+      this.listaAuto.splice(this.listaAuto.indexOf(auto), 1);
+      this.changeDetection.detectChanges();
+      this.listaAuto.length == 0 ? this.showComponent = false :  this.autoToShow = this.listaAuto[0];
     });
+  }
+  onAutoToAdd(auto:Auto){
+    this.listaAuto.push(auto);
+    this.changeDetection.detectChanges();
+    this.autoToShow = auto;
   }
 
 }

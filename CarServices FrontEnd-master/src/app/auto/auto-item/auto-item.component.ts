@@ -15,7 +15,7 @@ export class AutoItemComponent implements OnInit {
   }
 
   onAutoClick(){
-    this.autoToShow.emit(this.auto);
+    if(this.autoToShow) this.autoToShow.emit(this.auto);
   }
 
   onAutoDelete(){

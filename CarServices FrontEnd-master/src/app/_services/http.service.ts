@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {TokenStorageService} from "./token-storage.service";
@@ -19,11 +19,7 @@ export class HttpService {
    * @param body
    */
   public post(url: string, body: any): Observable<any> {
-    console.log('http');
-    console.log(url);
-    console.log(body);
-    console.log(this.getHeaders());
-
+    console.log("chiamno funzione giusta");
     return this.http.post(this.url+url, body, {headers:this.getHeaders()})
   }
 
@@ -52,8 +48,6 @@ export class HttpService {
    * @param params
    */
   public get(url: string, params?:any): Observable<any>{
-    //const httpParams = new HttpParams({fromObject: params});
-    console.log(this.getHeaders());
     return this.http.get(this.url+url, {headers:this.getHeaders(), params:params})
   }
 
