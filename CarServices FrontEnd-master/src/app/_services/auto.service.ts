@@ -11,7 +11,6 @@ export class AutoService {
     constructor(private http:HttpService) { }
 
     public getAllAuto(): Observable<Auto[]>{
-
         return this.http.get("/auto/all");
     }
 

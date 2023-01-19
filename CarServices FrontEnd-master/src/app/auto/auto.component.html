@@ -4,7 +4,19 @@
     </div>
     <div class="col-md-7">
         <app-auto-details [autoToShow]="autoToShow"></app-auto-details>
+      <button (click)="modalService.open('aggiungiAuto')">Aggiungi Auto</button>
+      <jw-modal id="aggiungiAuto">
+        <app-aggiungi-auto (autoToAdd)="onAutoToAdd($event)"></app-aggiungi-auto>
+        <button (click)="modalService.close();">Close</button>
+      </jw-modal>
     </div>
 </div>
-<ng-template #noAuto>NO AUTO</ng-template>
-<app-aggiungi-auto (autoToAdd)="onAutoToAdd($event)"></app-aggiungi-auto>
+<ng-template #noAuto>
+  <button (click)="modalService.open('aggiungiAutoNull')">Aggiungi Auto</button>
+  <jw-modal id="aggiungiAutoNull">
+    <app-aggiungi-auto (autoToAdd)="onAutoToAdd($event)"></app-aggiungi-auto>
+    <button (click)="modalService.close();">Close</button>
+  </jw-modal>
+</ng-template>
+
+

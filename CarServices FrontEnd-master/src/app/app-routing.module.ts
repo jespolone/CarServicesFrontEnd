@@ -10,6 +10,7 @@ import { BoardModeratorComponent } from './board-moderator/board-moderator.compo
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import {AutoComponent} from "./auto/auto.component";
 import {ChiSiamoComponent} from "./chi-siamo/chi-siamo.component";
+import {PrenotaInterventoComponent} from "./prenota-intervento/prenota-intervento.component";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'admin', component: BoardAdminComponent },
   { path: 'auto', component:AutoComponent },
   { path: 'chi-siamo', component:ChiSiamoComponent },
+  { path: 'prenota-intervento', component:PrenotaInterventoComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

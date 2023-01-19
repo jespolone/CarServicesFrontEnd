@@ -28,6 +28,11 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpInterceptorService } from './_services/http-interceptor.service';
 import { ToastrModule } from 'ngx-toastr';
+import { NgMaterialModule } from './ng-material/ng-material.module';
+import { FormFieldLabelExampleComponent } from './form-field-label-example/form-field-label-example.component';
+import { ModalComponent } from './modal';
+import { SchedulerComponent } from './scheduler/scheduler.component';
+import { PrenotaInterventoComponent } from './prenota-intervento/prenota-intervento.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +53,11 @@ import { ToastrModule } from 'ngx-toastr';
     FooterComponent,
     ChiSiamoComponent,
     ChangePasswordComponent,
+    FormFieldLabelExampleComponent,
+    ModalComponent,
+    SchedulerComponent,
+    PrenotaInterventoComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -59,6 +69,8 @@ import { ToastrModule } from 'ngx-toastr';
     NgxSpinnerModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    ReactiveFormsModule,
+    NgMaterialModule,
   ],
   providers: [authInterceptorProviders, {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}],
   bootstrap: [AppComponent]

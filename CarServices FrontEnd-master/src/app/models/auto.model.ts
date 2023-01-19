@@ -5,5 +5,6 @@ export interface Auto{
     targa: string;
     anno: number;
     colore: string;
+    idProprietario:number;
 
 }

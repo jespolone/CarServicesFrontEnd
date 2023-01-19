@@ -1,32 +1,43 @@
+
+
+
 <div class="row">
+
     <div class="col-xs-12">
-        <form [formGroup]="formGroup" (ngSubmit)="onAutoAdd()">
+        <form [formGroup]="formGroup"
+              name="form"
+              #f="ngForm"
+              novalidate
+              (ngSubmit)="onSubmit()">
             <div class="row">
-              <h4>Basic native select</h4>
-<!--              <mat-form-field appearance="fill">-->
-<!--                <mat-label>Cars</mat-label>-->
-<!--                <select matNativeControl required>-->
-<!--                  <option value="volvo">Volvo</option>-->
-<!--                  <option value="saab">Saab</option>-->
-<!--                  <option value="mercedes">Mercedes</option>-->
-<!--                  <option value="audi">Audi</option>-->
-<!--                </select>-->
-<!--              </mat-form-field>-->
                 <div class="col-sm-5 form-group">
-                    <label for="marca">Marca</label>
-                    <input
-                        type="text"
-                        id="marca"
-                        class="form-control"
-                        formControlName="marca" required>
+                  <mat-form-field appearance="fill">
+                    <select matNativeControl id="marca" required formControlName="marca">
+                      <option value="" selected></option>
+                      <option value="Land Rover" >LAND ROVER</option>
+                      <option value="Jaguar">JAGUAR</option>
+                      <option value="Isuzu">ISUZU</option>
+                    </select>
+                    <mat-label><mat-icon>directions_car</mat-icon> <b> Seleziona Marca</b></mat-label>
+                  </mat-form-field>
+<!--                  <mat-form-field appearance="fill">-->
+<!--                    <mat-select required [(value)]="selectedAuto"  id="marca" formControlName="marca">-->
+<!--                      <mat-option value="Land Rover">LAND ROVER</mat-option>-->
+<!--                      <mat-option value="Jaguar">JAGUAR</mat-option>-->
+<!--                      <mat-option value="Isuzu">ISUZU</mat-option>-->
+<!--                    </mat-select>-->
+<!--                    <mat-label><mat-icon>directions_car</mat-icon> <b> Seleziona Marca</b></mat-label>-->
+<!--                  </mat-form-field>-->
                 </div>
+
                 <div class="col-sm-5 form-group">
                     <label for="modello">Modello</label>
                     <input
                         type="text"
                         id="modello"
                         class="form-control"
-                        formControlName="modello">
+                        formControlName="modello"
+                        required>
                 </div>
                 <div class="col-sm-5 form-group">
                     <label for="targa">Targa</label>
@@ -34,15 +45,21 @@
                         type="text"
                         id="targa"
                         class="form-control"
-                        formControlName="targa">
+                        formControlName="targa"
+                        required>
                 </div>
                 <div class="col-sm-5 form-group">
                     <label for="anno">Anno</label>
                     <input
-                        type="text"
+                        type="number"
                         id="anno"
+                        placeholder="yyyy"
+                        min="1111"
+                        max="9999"
                         class="form-control"
-                        formControlName="anno">
+                        formControlName="anno"
+                        required>
+
                 </div>
                 <div class="col-sm-5 form-group">
                     <label for="colore">Colore</label>
@@ -50,14 +67,13 @@
                         type="text"
                         id="colore"
                         class="form-control"
-                        formControlName="colore">
+                        formControlName="colore"
+                        required>
                 </div>
-
-
                 <div class="col-xs-12">
-                    <!-- naggiadio type="subtim" faceva casino -->
                     <button class="btn btn-success"  type="submit" >Aggiungi Auto</button> <!-- (click)="onAddItem()" -->
                 </div>
+
 
             </div>
         </form>

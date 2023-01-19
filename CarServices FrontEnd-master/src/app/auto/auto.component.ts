@@ -1,6 +1,7 @@
 import {Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Auto } from 'src/app/models/auto.model';
 import { AutoService } from 'src/app/_services/auto.service';
+import { ModalService } from '../_services/modal.service';
 
 @Component({
   selector: 'app-auto',
@@ -12,7 +13,7 @@ export class AutoComponent implements OnInit {
     public autoToShow!: Auto;
 
     showComponent: boolean = true;
-    constructor(private autoService: AutoService,  private changeDetection: ChangeDetectorRef) {
+    constructor(private autoService: AutoService,  private changeDetection: ChangeDetectorRef, public modalService: ModalService) {
    }
 
   ngOnInit(): void {
@@ -27,7 +28,6 @@ export class AutoComponent implements OnInit {
     });
   }
 
-
   onAutoToShowChange(event:Auto){
     this.autoToShow=event;
   }
@@ -35,15 +35,20 @@ export class AutoComponent implements OnInit {
   onAutoToDelete(event:Auto){
 
     this.autoService.deleteAuto(event.id).subscribe((auto:Auto)=>{
-      this.listaAuto.splice(this.listaAuto.indexOf(auto), 1);
-      this.changeDetection.detectChanges();
+      if(auto.id != event.id){
+        console.log("Errore");
+      }
+      this.listaAuto.splice(this.listaAuto.indexOf(event), 1);
       this.listaAuto.length == 0 ? this.showComponent = false :  this.autoToShow = this.listaAuto[0];
+      this.changeDetection.detectChanges();
     });
   }
   onAutoToAdd(auto:Auto){
     this.listaAuto.push(auto);
-    this.changeDetection.detectChanges();
     this.autoToShow = auto;
+    this.showComponent = true;
+    this.changeDetection.detectChanges();
+    this.modalService.close();
   }
 
 }

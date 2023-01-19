@@ -19,7 +19,6 @@ export class HttpService {
    * @param body
    */
   public post(url: string, body: any): Observable<any> {
-    console.log("chiamno funzione giusta");
     return this.http.post(this.url+url, body, {headers:this.getHeaders()})
   }
 
