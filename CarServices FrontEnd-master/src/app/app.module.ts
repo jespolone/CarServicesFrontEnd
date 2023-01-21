@@ -31,8 +31,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgMaterialModule } from './ng-material/ng-material.module';
 import { FormFieldLabelExampleComponent } from './form-field-label-example/form-field-label-example.component';
 import { ModalComponent } from './modal';
-import { SchedulerComponent } from './scheduler/scheduler.component';
 import { PrenotaInterventoComponent } from './prenota-intervento/prenota-intervento.component';
+import {CalendarModule} from './calendar/calendar.module';
+import {DayPilotModule} from "@daypilot/daypilot-lite-angular";
 
 @NgModule({
   declarations: [
@@ -55,7 +56,6 @@ import { PrenotaInterventoComponent } from './prenota-intervento/prenota-interve
     ChangePasswordComponent,
     FormFieldLabelExampleComponent,
     ModalComponent,
-    SchedulerComponent,
     PrenotaInterventoComponent,
 
   ],
@@ -71,6 +71,8 @@ import { PrenotaInterventoComponent } from './prenota-intervento/prenota-interve
     ToastrModule.forRoot(),
     ReactiveFormsModule,
     NgMaterialModule,
+    DayPilotModule,
+    CalendarModule
   ],
   providers: [authInterceptorProviders, {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}],
   bootstrap: [AppComponent]

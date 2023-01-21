@@ -11,14 +11,17 @@
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
       </li>
-      <li class="nav-item" *ngIf="showModeratorBoard">
-        <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>
-      </li>
-      <li class="nav-item">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">Users</a>
-      </li>
+<!--      <li class="nav-item" *ngIf="showModeratorBoard">-->
+<!--        <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>-->
+<!--      </li>-->
+<!--      <li class="nav-item">-->
+<!--        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">Users</a>-->
+<!--      </li>-->
       <li class="nav-item">
         <a href="/auto" class="nav-link" *ngIf="showUserCar" routerLink="auto">Auto</a>
+      </li>
+      <li class="nav-item">
+        <a href="/prenota-intervento" class="nav-link" *ngIf="showUserCar" routerLink="prenota-intervento">Prenota Intervento</a>
       </li>
       <li class="nav-item">
         <a href="/chi-siamo" class="nav-link" routerLink="chi-siamo">Chi Siamo</a>
