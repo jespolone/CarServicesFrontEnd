@@ -1,4 +1,4 @@
-import {Component, ViewChild, AfterViewInit} from "@angular/core";
+import {Component, ViewChild, OnInit, ChangeDetectorRef} from "@angular/core";
 import {
   DayPilot,
   DayPilotCalendarComponent,
@@ -8,7 +8,6 @@ import {
 import {DataService} from "../_services/data.service";
 import {InterventoService} from "../_services/intervento.service";
 import {Intervento} from "../models/intervento.model";
-import {Auto} from "../models/auto.model";
 import {TokenStorageService} from "../_services/token-storage.service";
 
 @Component({
@@ -16,7 +15,7 @@ import {TokenStorageService} from "../_services/token-storage.service";
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent implements AfterViewInit {
+export class CalendarComponent implements OnInit {
 
   @ViewChild("day") day!: DayPilotCalendarComponent;
   @ViewChild("week") week!: DayPilotCalendarComponent;
@@ -31,9 +30,9 @@ export class CalendarComponent implements AfterViewInit {
     showMonths: 3,
     cellWidth: 25,
     cellHeight: 25,
-    onVisibleRangeChanged: args => {
-      this.loadEvents();
-    }
+    // onVisibleRangeChanged: args => {
+    //   this.loadEvents();
+    // }
   };
 
   selectTomorrow() {
@@ -43,7 +42,7 @@ export class CalendarComponent implements AfterViewInit {
   changeDate(date: DayPilot.Date): void {
     this.configDay.startDate = date;
     this.configWeek.startDate = date;
-    this.configMonth.startDate = date;
+    // this.configMonth.startDate = date;
   }
 
   configDay: DayPilot.CalendarConfig = {
@@ -75,10 +74,6 @@ export class CalendarComponent implements AfterViewInit {
           console.log(data);
         });
 
-      console.log(typeof modal.result);
-      console.log(typeof args.start);
-      console.log(typeof args.end);
-      console.log(typeof DayPilot.guid());
       if (!modal.result) { return; }
       dp.events.add(new DayPilot.Event({
         start: args.start,
@@ -89,50 +84,78 @@ export class CalendarComponent implements AfterViewInit {
     }
   };
 
-  configMonth: DayPilot.MonthConfig = {
+  // configMonth: DayPilot.MonthConfig = {
+  //
+  // };
 
-  };
+  constructor(private ds: DataService, private interventoService: InterventoService, private token: TokenStorageService, private changeDetection: ChangeDetectorRef) {
 
-  constructor(private ds: DataService, private interventoService: InterventoService, private token: TokenStorageService) {
-    this.viewWeek();
-    //this.configWeek.headerDateFormat="dddd MMMM d, yyyy";
-    this.configWeek.eventMoveHandling="Disabled";
-  //  this.configWeek.eve
+    this.configWeek.headerDateFormat="dd/MM/yyyy";
+    this.configDay.headerDateFormat="dd/MM/yyyy";
+
+    this.configWeek.timeFormat = "Clock24Hours";
+    this.configDay.timeFormat = "Clock24Hours";
+
+    this.configWeek.eventMoveHandling = "Disabled";
+    this.configDay.eventMoveHandling = "Disabled";
+
+    // this.configWeek.businessBeginsHour = 0;
+    // this.configWeek.businessEndsHour =24;
+
+
   }
 
-  ngAfterViewInit(): void {
-    this.loadEvents();
-  }
+  ngOnInit(): void {
 
-  loadEvents(): void {
-    const from = this.nav.control.visibleStart();
-    const to = this.nav.control.visibleEnd();
-    this.ds.getEvents(from, to).subscribe(result => {
-      this.events = result;
+    this.interventoService.getUserDate(this.token.getUser().id.toString()).subscribe(data => {
+      let myEvents: DayPilot.EventData[] = [];
+      for(let intervento  of data){
+        myEvents.push(Object.assign({  start: intervento.startdate,
+          end: intervento.enddate,
+          id: intervento.dayid,
+          text: intervento.datedescription}));
+      }
+      this.configWeek.events = myEvents;
+      //this.configMonth.events = myEvents;
+      this.configDay.events = myEvents;
+      this.changeDetection.detectChanges();
+      this.viewWeek();
+    },err => {
+      console.log(err.message());
     });
   }
+
+  // ngAfterViewInit(): void {
+  //   this.loadEvents();
+  // }
+  //
+  // loadEvents(): void {
+  //   const from = this.nav.control.visibleStart();
+  //   const to = this.nav.control.visibleEnd();
+  //   this.ds.getEvents(from, to).subscribe(result => {
+  //     this.events = result;
+  //   });
+  // }
 
   viewDay():void {
     this.configNavigator.selectMode = "Day";
     this.configDay.visible = true;
     this.configWeek.visible = false;
-    this.configMonth.visible = false;
+    // this.configMonth.visible = false;
   }
 
   viewWeek():void {
     this.configNavigator.selectMode = "Week";
     this.configDay.visible = false;
     this.configWeek.visible = true;
-    this.configMonth.visible = false;
+    // this.configMonth.visible = false;
   }
 
   viewMonth():void {
     this.configNavigator.selectMode = "Month";
     this.configDay.visible = false;
     this.configWeek.visible = false;
-    this.configMonth.visible = true;
+    // this.configMonth.visible = true;
   }
-
-
 }
 

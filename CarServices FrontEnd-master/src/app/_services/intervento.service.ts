@@ -1,7 +1,6 @@
 import { HttpService } from './http.service';
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
-import {Auto} from "../models/auto.model";
 import {Intervento} from "../models/intervento.model";
 
 @Injectable({
@@ -12,8 +11,10 @@ import {Intervento} from "../models/intervento.model";
 export class InterventoService{
   constructor(private http:HttpService) { }
 
-  public getUserDate(userId : number): Observable<Auto[]>{
-    return this.http.get("/userdate",userId);
+  public getUserDate(userId : String): Observable<Intervento[]>{
+    // let params = new HttpParams().set("userId", userId);
+    // console.log(params);
+    return this.http.get("/userdate" + userId);
   }
 
   public createDate(date:Intervento): Observable<any>{

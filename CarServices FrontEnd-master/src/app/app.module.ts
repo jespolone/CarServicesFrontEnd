@@ -34,6 +34,7 @@ import { ModalComponent } from './modal';
 import { PrenotaInterventoComponent } from './prenota-intervento/prenota-intervento.component';
 import {CalendarModule} from './calendar/calendar.module';
 import {DayPilotModule} from "@daypilot/daypilot-lite-angular";
+import { InterventiComponent } from './interventi/interventi.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import {DayPilotModule} from "@daypilot/daypilot-lite-angular";
     FormFieldLabelExampleComponent,
     ModalComponent,
     PrenotaInterventoComponent,
+    InterventiComponent,
 
   ],
   imports: [
