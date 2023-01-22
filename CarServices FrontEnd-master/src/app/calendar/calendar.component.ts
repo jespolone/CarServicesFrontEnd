@@ -9,6 +9,7 @@ import {DataService} from "../_services/data.service";
 import {InterventoService} from "../_services/intervento.service";
 import {Intervento} from "../models/intervento.model";
 import {TokenStorageService} from "../_services/token-storage.service";
+import {AutoService} from "../_services/auto.service";
 
 @Component({
   selector: 'calendar-component',
@@ -25,6 +26,21 @@ export class CalendarComponent implements OnInit {
   events: DayPilot.EventData[] = [];
 
   date = DayPilot.Date.today();
+
+  form = [
+    {
+      name: 'Fornire una breve descrizione del tipo di intervento che si vuole fare',
+      id: 'description',
+      type: 'text',
+    },
+    {
+      type: 'select',
+      id: 'select',
+      name: 'Selezionare targa veicolo',
+      options: [{ id: 1, name: "United States" }],
+    },
+  ];
+   data = {};
 
   configNavigator: DayPilot.NavigatorConfig = {
     showMonths: 3,
@@ -52,7 +68,8 @@ export class CalendarComponent implements OnInit {
     viewType: "Week",
 
     onTimeRangeSelected: async (args) => {
-      const modal = await DayPilot.Modal.prompt("Crea un appuntamento:", "Breve descrizione del tipo di intervento");
+      //const modal = await DayPilot.Modal.prompt("Crea un appuntamento:", "Breve descrizione del tipo di intervento");
+      const modal = await DayPilot.Modal.form(this.form, this.data);
       const dp = args.control;
       dp.clearSelection();
 
@@ -84,11 +101,7 @@ export class CalendarComponent implements OnInit {
     }
   };
 
-  // configMonth: DayPilot.MonthConfig = {
-  //
-  // };
-
-  constructor(private ds: DataService, private interventoService: InterventoService, private token: TokenStorageService, private changeDetection: ChangeDetectorRef) {
+  constructor(private ds: DataService, private interventoService: InterventoService, private token: TokenStorageService, private changeDetection: ChangeDetectorRef, private autoService:AutoService) {
 
     this.configWeek.headerDateFormat="dd/MM/yyyy";
     this.configDay.headerDateFormat="dd/MM/yyyy";
@@ -106,7 +119,24 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUserDate();
+    this.getUserCar();
+  }
 
+  getUserCar():void {
+    this.autoService.getAllAuto().subscribe(data=>{
+      let optionsAutoList:{id: number; name: string;}[] = [];
+      for(let auto of data){
+        console.log(auto.targa);
+        optionsAutoList.push({id: auto.id, name: auto.targa});
+      }
+      this.form[1].options = optionsAutoList;
+    },err=>{
+      console.log(err.message());
+    });
+  }
+
+  getUserDate():void {
     this.interventoService.getUserDate(this.token.getUser().id.toString()).subscribe(data => {
       let myEvents: DayPilot.EventData[] = [];
       for(let intervento  of data){
