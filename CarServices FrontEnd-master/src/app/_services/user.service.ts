@@ -34,6 +34,10 @@ export class UserService {
     return this.httpService.post("/user/active-update", user);
   }
 
+  getAllMechanical(): Observable<User[]>{
+    return this.httpService.get('user/all-mechanical');
+  }
+
 
 
   changePassword(oldPassword: string, newPassword: string, username: string): Observable<any> {

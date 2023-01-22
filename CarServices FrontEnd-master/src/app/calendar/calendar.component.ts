@@ -10,6 +10,9 @@ import {InterventoService} from "../_services/intervento.service";
 import {Intervento} from "../models/intervento.model";
 import {TokenStorageService} from "../_services/token-storage.service";
 import {AutoService} from "../_services/auto.service";
+import {UserService} from "../_services/user.service";
+import {ToasterService, toastPayload} from "../_services/toaster.service";
+import {IndividualConfig} from "ngx-toastr";
 
 @Component({
   selector: 'calendar-component',
@@ -35,12 +38,19 @@ export class CalendarComponent implements OnInit {
     },
     {
       type: 'select',
-      id: 'select',
+      id: 'auto',
       name: 'Selezionare targa veicolo',
-      options: [{ id: 1, name: "United States" }],
+      options: [{ id: 1, name: "placeholder" }],
+    },
+    {
+      type: 'select',
+      id: 'meccanico',
+      name: 'Selezionare preferenza meccanico',
+      options: [{ id: 1, name: "placeholder" }],
     },
   ];
    data = {};
+   toast!: toastPayload;
 
   configNavigator: DayPilot.NavigatorConfig = {
     showMonths: 3,
@@ -62,29 +72,59 @@ export class CalendarComponent implements OnInit {
   }
 
   configDay: DayPilot.CalendarConfig = {
-  };
-
-  configWeek: DayPilot.CalendarConfig = {
-    viewType: "Week",
+    viewType: "Day",
 
     onTimeRangeSelected: async (args) => {
-      //const modal = await DayPilot.Modal.prompt("Crea un appuntamento:", "Breve descrizione del tipo di intervento");
-      const modal = await DayPilot.Modal.form(this.form, this.data);
+      console.log(args.end.getTime() - args.start.getTime());
       const dp = args.control;
+
+
+
+
+      if(args.end.getTime() - args.start.getTime() != 1800000){
+        this.toast = {
+          message: "Puoi allocare al massimo 30 minuti per intervento",
+          title: "Errore",
+          type: 'error',
+          ic: {
+            timeOut: 2500,
+            closeButton: true,
+            positionClass: 'toast-top-center',
+          } as IndividualConfig,
+        };
+        this.toasterService.showToast(this.toast);
+        dp.clearSelection();
+        return;
+      }
+
+      const modal = await DayPilot.Modal.form(this.form, this.data);
+
+      if(modal.result.description == "" || modal.result.meccanico  == null || modal.result.auto == null){
+        this.toast = {
+          message: "Per favore valorizzare tutti i campi",
+          title: "Errore",
+          type: 'error',
+          ic: {
+            timeOut: 2500,
+            closeButton: true,
+            positionClass: 'toast-top-center',
+          } as IndividualConfig,
+        };
+        this.toasterService.showToast(this.toast);
+        dp.clearSelection();
+        return;
+      }
+
       dp.clearSelection();
 
-      //test save date
-
-     // this.authService.login(username, password).subscribe(
       let interventoToSave: Intervento = Object.assign({});
-   // private auto!:Auto;
-      interventoToSave.datedescription = modal.result;
+      interventoToSave.datedescription = modal.result.description;
       interventoToSave.startdate =  args.start;
       interventoToSave.enddate = args.end;
       interventoToSave.dayid = DayPilot.guid();
-      interventoToSave.mechanic = 29;
+      interventoToSave.mechanic =  modal.result.meccanico;
       interventoToSave.client = this.token.getUser().id;
-      interventoToSave.auto = 18; //implementa getAuto user
+      interventoToSave.auto = modal.result.auto;
 
       this.interventoService.createDate(interventoToSave).subscribe(
         data => {
@@ -96,12 +136,75 @@ export class CalendarComponent implements OnInit {
         start: args.start,
         end: args.end,
         id: DayPilot.guid(),
-        text: modal.result
+        text: modal.result.description
       }));
     }
   };
 
-  constructor(private ds: DataService, private interventoService: InterventoService, private token: TokenStorageService, private changeDetection: ChangeDetectorRef, private autoService:AutoService) {
+  configWeek: DayPilot.CalendarConfig = {
+    viewType: "Week",
+
+    onTimeRangeSelected: async (args) => {
+      console.log(args.end.getTime() - args.start.getTime());
+      const dp = args.control;
+      if(args.end.getTime() - args.start.getTime() != 1800000){
+        this.toast = {
+          message: "Puoi allocare al massimo 30 minuti per intervento",
+          title: "Errore",
+          type: 'error',
+          ic: {
+            timeOut: 2500,
+            closeButton: true,
+            positionClass: 'toast-top-center',
+          } as IndividualConfig,
+        };
+        this.toasterService.showToast(this.toast);
+        dp.clearSelection();
+        return;
+      }
+      const modal = await DayPilot.Modal.form(this.form, this.data);
+      if(modal.result.description == "" || modal.result.meccanico  == null || modal.result.auto == null){
+        this.toast = {
+          message: "Per favore valorizzare tutti i campi",
+          title: "Errore",
+          type: 'error',
+          ic: {
+            timeOut: 2500,
+            closeButton: true,
+            positionClass: 'toast-top-center',
+          } as IndividualConfig,
+        };
+        this.toasterService.showToast(this.toast);
+        dp.clearSelection();
+        return;
+      }
+      dp.clearSelection();
+
+      let interventoToSave: Intervento = Object.assign({});
+      interventoToSave.datedescription = modal.result.description;
+      interventoToSave.startdate =  args.start;
+      interventoToSave.enddate = args.end;
+      interventoToSave.dayid = DayPilot.guid();
+      interventoToSave.mechanic =  modal.result.meccanico;
+      interventoToSave.client = this.token.getUser().id;
+      interventoToSave.auto = modal.result.auto;
+
+      this.interventoService.createDate(interventoToSave).subscribe(
+        data => {
+          console.log(data);
+        });
+
+      if (!modal.result) { return; }
+      dp.events.add(new DayPilot.Event({
+        start: args.start,
+        end: args.end,
+        id: DayPilot.guid(),
+        text: modal.result.description
+      }));
+    }
+  };
+
+  constructor(private ds: DataService, private interventoService: InterventoService, private token: TokenStorageService, private changeDetection: ChangeDetectorRef, private autoService:AutoService, private userService : UserService, private toasterService: ToasterService) {
 
     this.configWeek.headerDateFormat="dd/MM/yyyy";
     this.configDay.headerDateFormat="dd/MM/yyyy";
@@ -121,6 +224,7 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.getUserDate();
     this.getUserCar();
+    this.getAllMechanical();
   }
 
   getUserCar():void {
@@ -131,6 +235,18 @@ export class CalendarComponent implements OnInit {
         optionsAutoList.push({id: auto.id, name: auto.targa});
       }
       this.form[1].options = optionsAutoList;
+    },err=>{
+      console.log(err.message());
+    });
+  }
+
+  getAllMechanical() : void{
+    this.userService.getAllMechanical().subscribe( data=>{
+      let optionsMechanicalList:{id: number; name: string;}[] = [];
+      for(let mech of data){
+        optionsMechanicalList.push({id: mech.id, name: mech.nome + " " + mech.cognome});
+      }
+      this.form[2].options = optionsMechanicalList;
     },err=>{
       console.log(err.message());
     });
