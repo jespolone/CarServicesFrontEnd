@@ -75,11 +75,7 @@ export class CalendarComponent implements OnInit {
     viewType: "Day",
 
     onTimeRangeSelected: async (args) => {
-      console.log(args.end.getTime() - args.start.getTime());
       const dp = args.control;
-
-
-
 
       if(args.end.getTime() - args.start.getTime() != 1800000){
         this.toast = {
@@ -98,7 +94,10 @@ export class CalendarComponent implements OnInit {
       }
 
       const modal = await DayPilot.Modal.form(this.form, this.data);
-
+      if(modal.canceled){
+        dp.clearSelection();
+        return;
+      }
       if(modal.result.description == "" || modal.result.meccanico  == null || modal.result.auto == null){
         this.toast = {
           message: "Per favore valorizzare tutti i campi",
@@ -145,7 +144,8 @@ export class CalendarComponent implements OnInit {
     viewType: "Week",
 
     onTimeRangeSelected: async (args) => {
-      console.log(args.end.getTime() - args.start.getTime());
+      console.log(args.resource);
+      console.log(args);
       const dp = args.control;
       if(args.end.getTime() - args.start.getTime() != 1800000){
         this.toast = {
@@ -163,6 +163,11 @@ export class CalendarComponent implements OnInit {
         return;
       }
       const modal = await DayPilot.Modal.form(this.form, this.data);
+
+      if(modal.canceled){
+        dp.clearSelection();
+        return;
+      }
       if(modal.result.description == "" || modal.result.meccanico  == null || modal.result.auto == null){
         this.toast = {
           message: "Per favore valorizzare tutti i campi",
@@ -236,7 +241,7 @@ export class CalendarComponent implements OnInit {
       }
       this.form[1].options = optionsAutoList;
     },err=>{
-      console.log(err.message());
+      console.log(err.message);
     });
   }
 
@@ -248,7 +253,7 @@ export class CalendarComponent implements OnInit {
       }
       this.form[2].options = optionsMechanicalList;
     },err=>{
-      console.log(err.message());
+      console.log(err.message);
     });
   }
 
@@ -267,7 +272,7 @@ export class CalendarComponent implements OnInit {
       this.changeDetection.detectChanges();
       this.viewWeek();
     },err => {
-      console.log(err.message());
+      console.log(err.message);
     });
   }
 
