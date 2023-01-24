@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
         }
         if(err.status == 401){
           this.toast = {
-            message: "Controllare l'email per il link di attivazione",
+            message: "Controllare l'email per il link di attivazione, altrimenti contatta l'amministratore",
             title: "Errore, utente inattivo",
             type: 'error',
             ic: {
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
             } as IndividualConfig,
           };
           this.toasterService.showToast(this.toast);
-          this.errorMessage ="Errore, utente inattivo";
+          this.errorMessage ="Errore, utente inattivo/disabilitato";
           this.isLoginFailed = true;
         }
       }

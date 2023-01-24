@@ -32,6 +32,8 @@ export class CalendarComponent implements OnInit {
 
   showCalendar: boolean = true;
 
+  showTab:boolean = false;
+
   form = [
     {
       name: 'Fornire una breve descrizione del tipo di intervento che si vuole fare',
@@ -234,13 +236,16 @@ export class CalendarComponent implements OnInit {
     this.getUserDate();
     this.getUserCar();
     this.getAllMechanical();
+    console.log(this.token.getUser().idRuolo);
+    this.token.getUser().idRuolo == 2 ? this.showTab = true : this.showTab = false;
+
+    console.log(this.showTab);
   }
 
   getUserCar():void {
     this.autoService.getAllAuto().subscribe(data=>{
       let optionsAutoList:{id: number; name: string;}[] = [];
       for(let auto of data){
-        console.log(auto.targa);
         optionsAutoList.push({id: auto.id, name: auto.targa});
       }
       this.form[1].options = optionsAutoList;
@@ -307,6 +312,13 @@ export class CalendarComponent implements OnInit {
   }
 
   switchMode() : void{
+    console.log(this.showCalendar);
+    if(!this.showCalendar){
+      this.configNavigator.selectMode == 'Day' ? this.configDay.visible = true : this.configWeek.visible = true;
+    }else {
+      this.configDay.visible = false;
+      this.configWeek.visible = false;
+    }
     this.showCalendar = !this.showCalendar;
   }
 }

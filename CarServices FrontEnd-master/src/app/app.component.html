@@ -22,7 +22,7 @@
         <a href="/prenota-intervento" class="nav-link" *ngIf="showUserCar" routerLink="prenota-intervento">Prenota Intervento</a>
       </li>
       <li class="nav-item">
-        <a href="/chi-siamo" class="nav-link" *ngIf="showUserCar" routerLink="chi-siamo">Chi Siamo</a>
+        <a href="/chi-siamo" class="nav-link" *ngIf="showUserCar || !isLoggedIn" routerLink="chi-siamo">Chi Siamo</a>
       </li>
     </ul>
 
