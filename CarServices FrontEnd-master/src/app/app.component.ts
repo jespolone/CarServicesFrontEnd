@@ -14,6 +14,8 @@ export class AppComponent {
   showModeratorBoard = false;
   showUserCar = false;
   username?: string;
+  name?: string;
+  surname?: string;
 
 
   constructor(private tokenStorageService: TokenStorageService, private  userService: UserService) {
@@ -32,6 +34,8 @@ export class AppComponent {
       this.showModeratorBoard = this.role =='SERVICE';
 
       this.username = user.username;
+      this.name = user.nome;
+      this.surname = user.cognome;
     }
   }
 

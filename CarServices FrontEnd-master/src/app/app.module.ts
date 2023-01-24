@@ -35,6 +35,7 @@ import { PrenotaInterventoComponent } from './prenota-intervento/prenota-interve
 import {CalendarModule} from './calendar/calendar.module';
 import {DayPilotModule} from "@daypilot/daypilot-lite-angular";
 import { InterventiComponent } from './interventi/interventi.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { InterventiComponent } from './interventi/interventi.component';
     ReactiveFormsModule,
     NgMaterialModule,
     DayPilotModule,
-    CalendarModule
+    CalendarModule,
+    MatDialogModule
   ],
   providers: [authInterceptorProviders, {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}],
   bootstrap: [AppComponent]

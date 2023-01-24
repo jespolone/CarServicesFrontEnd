@@ -24,7 +24,7 @@ export class BoardAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe(data => {
-        console.log(data);
+        //console.log(data);
         this.users = data;
       },
       err => {
@@ -47,7 +47,7 @@ export class BoardAdminComponent implements OnInit {
     this.userSelect =this.userService.switchUserRole(this.userSelect);
     let role:number = this.userSelect.idRuolo;
     this.userService.setUserRole(this.userSelect).subscribe( data =>{
-      console.log(data);
+      //console.log(data);
       this.userRole = this.userService.checkGrant(role);
     }, error => {
       console.log('errore set ruolo:' + error.message);
@@ -59,10 +59,10 @@ export class BoardAdminComponent implements OnInit {
   onActiveSave(): void{
     if(!this.userSelect || !this.userActive) return;
     if(this.userSelect.idRuolo == 1) return;
-    this.userSelect =this.userService.switchUserActive(this.userSelect);
     let active:number = this.userSelect.isactive;
+    this.userSelect =this.userService.switchUserActive(this.userSelect);
     this.userService.setUserActive(this.userSelect).subscribe( data =>{
-      console.log(data);
+      //console.log(data);
       this.userActive = this.userService.checkActive(active);
     }, error => {
       console.log('errore set active:' + error.message);
@@ -70,6 +70,14 @@ export class BoardAdminComponent implements OnInit {
         this.userSelect =this.userService.switchUserActive(this.userSelect);
 
     });
+  }
+
+  getRuolo(id:number){
+    return this.userService.checkGrant(id);
+  }
+
+  getStato(id:number){
+    return this.userService.checkActive(id);
   }
 
   onCancel(){

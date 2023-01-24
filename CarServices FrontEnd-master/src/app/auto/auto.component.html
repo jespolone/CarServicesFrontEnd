@@ -1,22 +1,28 @@
-<div class="row" *ngIf="showComponent; else noAuto">
-    <div class="col-md-5">
-        <app-auto-item *ngFor="let auto of listaAuto" [auto]="auto" (autoToShow)="onAutoToShowChange($event)" (autoToDelete)="onAutoToDelete($event)"></app-auto-item>
-    </div>
-    <div class="col-md-7">
-        <app-auto-details [autoToShow]="autoToShow"></app-auto-details>
-      <button (click)="modalService.open('aggiungiAuto')">Aggiungi Auto</button>
-      <jw-modal id="aggiungiAuto">
+<div style="margin-bottom: 30px">
+  <div class="row " *ngIf="showComponent; else noAuto">
+      <div class="col-md-5" style="margin-top: 150px">
+  <!--      <div class="d-flex align-content-center">-->
+          <app-auto-item *ngFor="let auto of listaAuto" [auto]="auto" (autoToShow)="onAutoToShowChange($event)" (autoToDelete)="onAutoToDelete($event)"></app-auto-item>
+        </div>
+  <!--    </div>-->
+      <div class="col-md-7">
+          <app-auto-details [autoToShow]="autoToShow"></app-auto-details>
+        <button (click)="modalService.open('aggiungiAuto')" class="btn btn-bordo btn-lg float-right" style="margin-top: 45px;margin-right: 15.5%;">Aggiungi Auto</button>
+        <jw-modal id="aggiungiAuto">
+          <app-aggiungi-auto (autoToAdd)="onAutoToAdd($event)"></app-aggiungi-auto>
+          <button (click)="modalService.close();" class="btn btn-bordo btn-lg" style="margin-top: -97px;">Close</button>
+        </jw-modal>
+      </div>
+  </div>
+  <ng-template #noAuto>
+    <div style="height: 60vh">
+      <button (click)="modalService.open('aggiungiAutoNull')" class="btn btn-bordo btn-lg">Aggiungi Auto</button>
+      <jw-modal id="aggiungiAutoNull">
         <app-aggiungi-auto (autoToAdd)="onAutoToAdd($event)"></app-aggiungi-auto>
-        <button (click)="modalService.close();">Close</button>
+        <button (click)="modalService.close();" class="btn btn-bordo btn-lg">Close</button>
       </jw-modal>
     </div>
+  </ng-template>
 </div>
-<ng-template #noAuto>
-  <button (click)="modalService.open('aggiungiAutoNull')">Aggiungi Auto</button>
-  <jw-modal id="aggiungiAutoNull">
-    <app-aggiungi-auto (autoToAdd)="onAutoToAdd($event)"></app-aggiungi-auto>
-    <button (click)="modalService.close();">Close</button>
-  </jw-modal>
-</ng-template>
 
 

@@ -1,5 +1,13 @@
 @import '~ngx-toastr/toastr';
 
+.jw-modal-body{
+  width: 70%;
+  height: 600px;
+  margin-left: 16%;
+  margin-top: 107px;
+}
+
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Fira Sans', sans-serif;
 }

@@ -30,6 +30,8 @@ export class CalendarComponent implements OnInit {
 
   date = DayPilot.Date.today();
 
+  showCalendar: boolean = true;
+
   form = [
     {
       name: 'Fornire una breve descrizione del tipo di intervento che si vuole fare',
@@ -220,6 +222,8 @@ export class CalendarComponent implements OnInit {
     this.configWeek.eventMoveHandling = "Disabled";
     this.configDay.eventMoveHandling = "Disabled";
 
+    this.configWeek.eventResizeHandling = "Disabled";
+    this.configDay.eventResizeHandling = "Disabled";
     // this.configWeek.businessBeginsHour = 0;
     // this.configWeek.businessEndsHour =24;
 
@@ -302,11 +306,8 @@ export class CalendarComponent implements OnInit {
     // this.configMonth.visible = false;
   }
 
-  viewMonth():void {
-    this.configNavigator.selectMode = "Month";
-    this.configDay.visible = false;
-    this.configWeek.visible = false;
-    // this.configMonth.visible = true;
+  switchMode() : void{
+    this.showCalendar = !this.showCalendar;
   }
 }
 

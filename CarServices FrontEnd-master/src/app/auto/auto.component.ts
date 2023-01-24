@@ -2,6 +2,7 @@ import {Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Auto } from 'src/app/models/auto.model';
 import { AutoService } from 'src/app/_services/auto.service';
 import { ModalService } from '../_services/modal.service';
+//import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-auto',
@@ -13,6 +14,7 @@ export class AutoComponent implements OnInit {
     public autoToShow!: Auto;
 
     showComponent: boolean = true;
+    // public dialog: MatDialog,
     constructor(private autoService: AutoService,  private changeDetection: ChangeDetectorRef, public modalService: ModalService) {
    }
 
@@ -27,6 +29,21 @@ export class AutoComponent implements OnInit {
       }
     });
   }
+
+
+  /*openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: '250px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+
+    });
+  }*/
+
+
 
   onAutoToShowChange(event:Auto){
     this.autoToShow=event;
